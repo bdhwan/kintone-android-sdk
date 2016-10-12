@@ -68,7 +68,7 @@ def gitVersion() {
 }
 
 def genVersionName() {
-    return '0.1.'+gitVersion()
+    return '1.0.'+gitVersion()
 }
 
 
