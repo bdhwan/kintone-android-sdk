@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
 
-
     }
 
     public void clickLogin(View v) {
@@ -47,11 +46,10 @@ public class MainActivity extends AppCompatActivity {
             Task.callInBackground(new Callable<Object>() {
                 @Override
                 public Object call() throws Exception {
-                    Log.d("log", "will call");
 
                     Connection db = new Connection(hostString, usernameString, passwordString);
                     List<AppDto> appList = db.getApps(null);
-                    Log.d("log", "temp app count = " + appList.size());
+                    Log.d("log", "appList = " + appList.size());
                     return null;
                 }
             });
