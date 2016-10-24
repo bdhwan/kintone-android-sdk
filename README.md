@@ -5,7 +5,7 @@
 add you app dependency
 
 ```java
-compile 'com.altamirasoft.kintonesdk:kintone-android-sdk:0.1.5'
+compile 'com.altamirasoft.kintonesdk:kintone-android-sdk:1.0.4'
 ```
 
 
