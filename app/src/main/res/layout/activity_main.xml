@@ -52,7 +52,7 @@
                     android:layout_margin="10dp"
                     android:ems="10"
                     android:hint="host"
-                    android:text="altamira.cybozu.com"
+                    android:text=""
                     android:inputType="textEmailAddress" />
 
 
@@ -63,7 +63,7 @@
                     android:layout_margin="10dp"
                     android:ems="10"
                     android:hint="username"
-                    android:text="bdhwan"
+                    android:text=""
                     android:inputType="textEmailAddress" />
 
                 <EditText
@@ -77,7 +77,7 @@
                     android:ems="10"
                     android:hint="password"
                     android:inputType="textPassword"
-                    android:text="Dock1374!" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/message"

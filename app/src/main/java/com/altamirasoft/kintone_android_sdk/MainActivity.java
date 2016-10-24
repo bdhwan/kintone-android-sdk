@@ -10,8 +10,11 @@ import android.widget.EditText;
 
 import com.cybozu.kintone.database.AppDto;
 import com.cybozu.kintone.database.Connection;
+import com.cybozu.kintone.database.FileDto;
+import com.cybozu.kintone.database.Record;
 import com.cybozu.kintone.database.ResultSet;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -55,9 +58,29 @@ public class MainActivity extends AppCompatActivity {
                     for(int i =0;i<appList.size();i++){
 
                         AppDto aApp = appList.get(i);
-                        ResultSet result =  db.select(aApp.getAppId());
-                        Log.d("log", "result = " +result.getTotalCount());
 
+                        if(aApp.getName().equals("vxm-application")){
+                            ResultSet result =  db.select(aApp.getAppId());
+
+                            List<Record> records = result.getRecords();
+                            Log.d("log", "records = " +records.size());
+                            for(int j=0;j<records.size();j++){
+                                Record aRecord = records.get(j);
+                                Log.d("log","aRecord = "+aRecord.toString());
+                                Log.d("log","fields ="+aRecord.getFieldNames().toString());
+
+                                List<FileDto> files =   aRecord.getFiles("VXM");
+                                Log.d("log","files ="+files.size());
+
+                                String fileKey = files.get(0).getFileKey();
+                                Log.d("log","fileKey ="+fileKey);
+                                String fileUrl = files.get(0).getUrl();
+                                Log.d("log","fileUrl ="+fileUrl);
+
+                                File file=  db.downloadFile(fileKey);
+                                Log.d("log","file ="+file.getAbsolutePath());
+                            }
+                        }
                     }
                     return null;
                 }
