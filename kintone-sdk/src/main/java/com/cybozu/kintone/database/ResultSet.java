@@ -331,4 +331,9 @@ public class ResultSet {
         List<FileDto> files = getFiles(name);
         return connection.downloadFile(files.get(index).getFileKey());
     }
+
+
+    public List<Record> getRecords(){
+        return records;
+    }
 }
