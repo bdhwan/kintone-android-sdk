@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.cybozu.kintone.database.AppDto;
 import com.cybozu.kintone.database.Connection;
+import com.cybozu.kintone.database.ResultSet;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -50,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
                     Connection db = new Connection(hostString, usernameString, passwordString);
                     List<AppDto> appList = db.getApps(null);
                     Log.d("log", "appList = " + appList.size());
+
+                    for(int i =0;i<appList.size();i++){
+
+                        AppDto aApp = appList.get(i);
+                        ResultSet result =  db.select(aApp.getAppId());
+                        Log.d("log", "result = " +result.getTotalCount());
+
+                    }
                     return null;
                 }
             });

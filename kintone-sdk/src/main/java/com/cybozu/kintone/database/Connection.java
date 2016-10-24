@@ -707,6 +707,14 @@ public class Connection {
         return new String(sb);
     }
 
+
+    public ResultSet select(long app)
+            throws DBException {
+
+        return select(app, null);
+    }
+
+
     /**
      * Selects the records from kintone using a query string.
      * 
@@ -719,6 +727,7 @@ public class Connection {
      */
     public ResultSet select(long app, String query)
             throws DBException {
+
         return select(app, query, null);
     }
     
@@ -751,6 +760,7 @@ public class Connection {
      */
     public ResultSet select(long app, String query, String[] columns)
             throws DBException {
+
     	return select(app, query, columns, false);
     }
     
@@ -789,14 +799,22 @@ public class Connection {
             throws DBException {
 
         try {
-            query = URLEncoder.encode(query, "UTF-8");
+            if(query!=null){
+                query = URLEncoder.encode(query, "UTF-8");
+            }
+
         } catch (UnsupportedEncodingException e) {
+            Log.d("log","ex ="+e.toString());
         }
         StringBuilder sb = new StringBuilder();
         sb.append("app=");
         sb.append(app);
-        sb.append("&query=");
-        sb.append(query);
+
+        if(query!=null){
+            sb.append("&query=");
+            sb.append(query);
+        }
+
         if (columns != null) {
             int i = 0;
             for (String column : columns) {
@@ -813,6 +831,7 @@ public class Connection {
         }
         
         String api = new String(sb);
+
         String response = request("GET", "records.json?" + api, null);
         JsonParser parser = new JsonParser();
         ResultSet rs = null;
