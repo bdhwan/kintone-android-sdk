@@ -15,6 +15,7 @@
 package com.cybozu.kintone.database;
 
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.cybozu.kintone.database.exception.DBException;
@@ -800,10 +801,14 @@ public class Connection {
 
         try {
             if(query!=null){
+
+
                 query = URLEncoder.encode(query, "UTF-8");
+//                query =  Uri.encode(query);
+//                query =   URLEncoder.encode(query, "utf-8");
             }
 
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             Log.d("log","ex ="+e.toString());
         }
         StringBuilder sb = new StringBuilder();
@@ -826,19 +831,33 @@ public class Connection {
                 i++;
             }
         }
+
+
         if (totalCount) {
         	sb.append("&totalCount=true");
         }
+
+
+
         
         String api = new String(sb);
 
+        Log.d("log","api query: "+api);
+
         String response = request("GET", "records.json?" + api, null);
+
+        Log.d("log","response = "+response);
+
+
         JsonParser parser = new JsonParser();
         ResultSet rs = null;
         
         try {
             rs = parser.jsonToResultSet(this, response);
         } catch (IOException e) {
+
+            Log.d("log","api ex = "+e.toString());
+
             throw new ParseException("failed to parse json to resultset");
         }
 
@@ -1436,9 +1455,19 @@ public class Connection {
      */
     public List<AppDto> getApps(String name) throws DBException {
 
+        Log.d("log","getApps");
     	return getApps(null, null, name, null, 100, 0);
     }
-    
+
+
+    public List<AppDto> getApps(String name,long limit,long offset) throws DBException {
+
+        Log.d("log","getApps");
+        return getApps(null, null, name, null, limit, offset);
+    }
+
+
+
     /**
      * Search apps with id, code or name
      * 
@@ -1452,7 +1481,8 @@ public class Connection {
      */
     public List<AppDto> getApps(List<Long> ids, List<String> codes,
                                 String name, List<Long> spaceIds, long limit, long offset) throws DBException {
-    	
+
+        Log.d("log","getApps1");
     	StringBuilder sb = new StringBuilder();
 
 
@@ -1517,7 +1547,11 @@ public class Connection {
 
         String query = new String(sb);
 
+
+        Log.d("log","getApps query:  "+query);
+
         String response = request("GET", "apps.json?" + query, null);
+        Log.d("log","response ="+response);
 
         JsonParser parser = new JsonParser();
         List<AppDto> apps = null;
@@ -1527,6 +1561,10 @@ public class Connection {
 
             apps = parser.jsonToApps(response);
         } catch (IOException e) {
+
+
+            Log.d("log","ex ="+e.toString());
+
             throw new ParseException("failed to parse json to apps");
         }
         
